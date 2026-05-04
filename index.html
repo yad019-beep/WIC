@@ -1,19 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Project Title</title>
-              <link rel="stylesheet" href="styles.css" type=”text/css”/>
-        <link rel="icon" href="" type="image/x-icon" />
-        <script type="text/javascript" src="script.js"></script>
-    </head>
-    <body>
-        <!-- Add HTML markup elements for your web site below -->
-        <h1>Welcome to Project Title!</h1>
-        <p>Here are some more details.</p>
-    </body>
-    <footer>
-        <p>Made by: WIC &hearts;</p>
-    </footer>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food & Place Discovery</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="food-page">
+    <!-- 顶部 -->
+    <header id="header-section">
+        <div class="logo">MyDiscovery</div>
+        <nav class="tabs">
+            <button id="tab-food">Food</button>
+            <button id="tab-place">Place</button>
+        </nav>
+    </header>
+    <div class="app-layout">
+        <!-- 左侧筛选 -->
+        <aside id="sidebar-section">
+            <!-- 共用筛选 -->
+            <div class="shared-filters">
+                <div class="filter-group">
+                    <label>Cost:</label>
+                    <input type="range" min="1" max="100" value="50">
+                </div>
+                <div class="filter-group">
+                    <label><input type="checkbox" id="discount-only"> Discount Only</label>
+                </div>
+                <button class="random-btn">🎲 Pick For Me!</button>
+            </div>
+
+            <hr>
+            <!-- 食物 -->
+            <div class="food-exclusive">
+                <h3>Food Filters</h3>
+                <button>Vegetarian</button>
+                <button>Spicy Level</button>
+            </div>
+            
+            <!-- 景点 -->
+            <div class="place-exclusive">
+                <h3>Place Filters</h3>
+                <button>Free Entry</button>
+                <button>Indoor / Outdoor</button>
+            </div>
+
+        </aside>
+
+        <!-- 主页/中间部分 -->
+        <main id="main-section">
+            <h2 id="page-title">Currently Browsing: Food</h2>
+            <!-- 如果没理解错这个地方是全部删了 然后你自己重新设计卡片 -->
+            <div class="results-container">
+                <article class="location-card">
+                    <div class="card-img">Image Placeholder</div>
+                    <div class="card-info">
+                        <h3>Sample Location Name</h3>
+                        <p>Rating: ⭐⭐⭐⭐</p>
+                        <span class="price-tag">$$</span>
+                    </div>
+                </article>
+            </div>
+        </main>
+        </div>
+
+    <script src="js/topbar.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/main.js"></script>
+</body>
 </html>
