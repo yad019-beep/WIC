@@ -1,0 +1,40 @@
+/* --- Shared Sidebar Base Styles --- */
+#sidebar-section {
+    width: 260px;
+    background: #f8f9fa;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+}
+
+/* =================================================== */
+/* --- Core Display Logic (DO NOT DELETE) --- */
+/* =================================================== */
+
+/* 1. Hide exclusive buttons by default */
+.food-exclusive, .place-exclusive {
+    display: none;
+}
+
+/* 2. Show Food buttons ONLY when body has 'food-page' class */
+body.food-page .food-exclusive {
+    display: block;
+}
+
+/* 3. Show Place buttons ONLY when body has 'place-page' class */
+body.place-page .place-exclusive {
+    display: block;
+}
+
+/* =================================================== */
+
+/* Member 1 & 2: Continue writing your button styles below */
+.random-btn {
+    width: 100%;
+    padding: 10px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
