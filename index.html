@@ -11,14 +11,28 @@
 </head>
 
 <body class="food-page">
-    <!-- 顶部 -->
+    <!-- 顶部导航栏 -->
     <header id="header-section">
-        <div class="logo">MyDiscovery</div>
+        <!-- 左边：logo -->
+        <div class="logo">
+            MyDiscovery
+        </div>
+        <!-- 中间：导航按钮 -->
         <nav class="tabs">
             <button id="tab-food">Food</button>
             <button id="tab-place">Place</button>
+            <button id="tab-weather">Weather</button>
         </nav>
+        <!-- 右边：搜索栏 -->
+        <div class="search-container">
+            <input 
+                type="text" 
+                placeholder="Search..."
+                id="search-bar"
+            >
+        </div>
     </header>
+
     <div class="app-layout">
         <!-- 左侧筛选 -->
         <aside id="sidebar-section">

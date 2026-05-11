@@ -1,0 +1,109 @@
+/* 顶部导航栏整体*/
+#header-section {
+
+    /* 横向排列 */
+    display: flex;
+
+    /* 左右两边拉开 */
+    justify-content: space-between;
+
+    /* 居中 */
+    align-items: center;
+
+    /* 导航栏高度 */
+    height: 80px;
+
+    /* 左右留白 */
+    padding: 0 40px;
+
+    /* 背景颜色 */
+    background-color: #663399;
+
+    /* 底部边框 */
+    border-bottom: 2px solid #ddd;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* logo */
+.logo {
+
+    /* 字体变大 */
+    font-size: 28px;
+
+    /* 加粗 */
+    font-weight: bold;
+
+    color: white;
+}
+
+/* 中间导航 */
+.tabs {
+
+    /* 横向排列按钮 */
+    display: flex;
+
+    /* 按钮之间间距 */
+    gap: 20px;
+}
+
+/* nav按钮 */
+.tabs button {
+
+    /* 内边距 */
+    padding: 10px 24px;
+
+    /* 圆角 */
+    border-radius: 30px;
+
+    /* 去掉默认边框 */
+    border: none;
+
+    /* 背景颜色 */
+    background-color: #DFD3E3;
+    color: #461B7E;
+
+    /* 鼠标样式 */
+    cursor: pointer;
+
+    /* 字体大小 */
+    font-size: 16px;
+
+    /* 动画更平滑 */
+    transition: 0.3s;
+}
+
+/* 鼠标hover效果 */
+.tabs button:hover {
+
+    /* 背景变深 */
+    background-color: #cbb8d3;
+
+    /* 稍微放大 */
+    transform: scale(1.05);
+}
+
+/* searchbar */
+.search-container input {
+
+    /* 搜索框宽度 */
+    width: 220px;
+
+    /* 内边距 */
+    padding: 10px;
+
+    /* 圆角 */
+    border-radius: 20px;
+
+    /* 边框 */
+    border: 2px solid #DFD3E3;
+    color: #461B7E;
+
+    /* 字体大小 */
+    font-size: 14px;
+}
+
+.tabs button.active {
+    background-color: #461B7E;
+    color: white;
+}
