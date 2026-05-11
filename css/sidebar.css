@@ -1,40 +1,142 @@
 /* --- Shared Sidebar Base Styles --- */
 #sidebar-section {
-    width: 260px;
-    background: #f8f9fa;
-    border-right: 1px solid #ddd;
-    padding: 20px;
+    /*size*/
+    width: 280px;  /*宽度*/
+    height: 100vh; /*高度 vh：viewpoint height 与整个网页的高度持平*/
+    padding: 20px; /*里面字体和按钮的间距*/
+
+    /*color*/
+    background: #DFD3E3;
+    color: #461B7E;
+    border-right: 1px solid #efddf0;
+    
 }
 
-/* =================================================== */
-/* --- Core Display Logic (DO NOT DELETE) --- */
-/* =================================================== */
-
-/* 1. Hide exclusive buttons by default */
+/* 默认隐藏food/place按钮 */
 .food-exclusive, .place-exclusive {
     display: none;
 }
 
-/* 2. Show Food buttons ONLY when body has 'food-page' class */
+/* 当主页是food时，显示 Food按钮 */
 body.food-page .food-exclusive {
     display: block;
 }
 
-/* 3. Show Place buttons ONLY when body has 'place-page' class */
+/*  place同理 */
 body.place-page .place-exclusive {
     display: block;
 }
 
-/* =================================================== */
+/*共同的按钮*/
+/* 隐藏浏览器的默认按钮 */
+.custom-fill-filter input[type="checkbox"] {
+    display: none;
+}
+/* 默认按钮格式--------------------------------- */
+/*把文字加框 改成按钮 */
+.custom-fill-filter label {
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border: 2px solid #461B7E;  /* Your dark purple */
+    border-radius: 8px;
+    color: #461B7E;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out; /* Smooth animation */
+}
 
-/* Member 1 & 2: Continue writing your button styles below */
+/*悬停：按钮变深紫 */
+.custom-fill-filter label:hover {
+    background-color: rgba(61, 16, 120, 0.1); 
+}
+
+/*点击时：变小 */
+.custom-fill-filter label:active {
+    transform: scale(0.96);
+}
+
+/*点击后：变深 文字改浅粉 */
+.custom-fill-filter input[type="checkbox"]:checked + label {
+    background-color: #461B7E;
+    color: rgb(226, 206, 226);
+}
+
+/* 原神抽奖按钮-------------------------- */
+/* 按钮格式 */
 .random-btn {
     width: 100%;
     padding: 10px;
-    background: #ff4757;
-    color: white;
+    background: #461B7E;
+    color:  rgb(226, 206, 226);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 15px;
+    transition: all 0.2s ease-in-out; /* 添加平滑过渡效果 */
+}
+
+/* 悬停:变深紫 */
+.random-btn:hover {
+    background: #461B7E; 
+}
+
+/* 点击时缩小 */
+.random-btn:active {
+    transform: scale(0.95);
+}
+
+/* 价格条滑动---------------------------- */
+/* 价格数值 */
+.price-display {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #461B7E;
+    font-size: 16px;
+}
+
+/* 双滑块容器 */
+.range-slider-container {
+    position: relative;
+    width: 100%;
+    height: 40px; 
+}
+
+/* 让两个滑块重叠 */
+.range-slider-container input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    background: none;
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 恢复按钮点击 */
+.range-slider-container input[type="range"]::-webkit-slider-thumb {
+    pointer-events: auto; /* 只有滑块可以被点击 */
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #461B7E;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 滑条背景 */
+.slider-track {
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    background: #ffffff;
+    border: 1px solid #c8b1cc;
+    border-radius: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
