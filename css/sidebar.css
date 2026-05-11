@@ -2,7 +2,6 @@
 #sidebar-section {
     /*size*/
     width: 230px;  /*宽度*/
-    height: 100vh; /*高度 vh：viewpoint height 与整个网页的高度持平*/
     padding: 20px; /*里面字体和按钮的间距*/
 
     /*color*/
@@ -10,6 +9,13 @@
     color: #461B7E;
     border-right: 1px solid #efddf0;
     
+    /* 锁定侧面tab */
+    position: sticky;
+    top:82px;
+    align-self: flex-start;
+    height: calc(100vh - 82px);
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 /* 默认隐藏food/place按钮 */
