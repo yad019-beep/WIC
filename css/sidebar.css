@@ -1,7 +1,7 @@
 /* --- Shared Sidebar Base Styles --- */
 #sidebar-section {
     /*size*/
-    width: 280px;  /*宽度*/
+    width: 230px;  /*宽度*/
     height: 100vh; /*高度 vh：viewpoint height 与整个网页的高度持平*/
     padding: 20px; /*里面字体和按钮的间距*/
 
