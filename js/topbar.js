@@ -14,6 +14,8 @@ foodBtn.addEventListener("click", function () {
 
     // 改标题（UI反馈）
     pageTitle.textContent = "Currently Browsing: Food";
+    document.body.classList.remove("place-page");
+    document.body.classList.add("food-page");
 
     setActiveTab(foodBtn);
 
@@ -25,6 +27,8 @@ foodBtn.addEventListener("click", function () {
 placeBtn.addEventListener("click", function () {
 
     pageTitle.textContent = "Currently Browsing: Place";
+    document.body.classList.remove("food-page");
+    document.body.classList.add("place-page");
 
     setActiveTab(placeBtn);
 
