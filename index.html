@@ -21,8 +21,25 @@
         <nav class="tabs">
             <button id="tab-food">Food</button>
             <button id="tab-place">Place</button>
-            <button id="tab-weather">Weather</button>
         </nav>
+        <div class="weather-box" aria-label="Today's weather">
+            <div class="weather-cell">
+                <span>Weather</span>
+                <strong id="weather-condition">Today</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Temp</span>
+                <strong id="weather-temp">-- F</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Rain</span>
+                <strong id="weather-rain">--%</strong>
+            </div>
+            <div class="weather-cell">
+                <span>City</span>
+                <strong id="weather-location">Loading</strong>
+            </div>
+        </div>
         <!-- 右边：搜索栏 -->
         <div class="search-container">
             <input 

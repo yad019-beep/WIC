@@ -111,3 +111,42 @@
     background-color: #461B7E;
     color: white;
 }
+
+.weather-box {
+    min-width: 460px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 6px;
+    border: 2px solid #DFD3E3;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.14);
+    color: white;
+    box-sizing: border-box;
+}
+
+.weather-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 44px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.12);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.weather-cell span {
+    color: #DFD3E3;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.weather-cell strong {
+    margin-top: 3px;
+    font-size: 15px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
