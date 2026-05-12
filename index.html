@@ -21,8 +21,25 @@
         <nav class="tabs">
             <button id="tab-food">Food</button>
             <button id="tab-place">Place</button>
-            <button id="tab-weather">Weather</button>
         </nav>
+        <div class="weather-box" aria-label="Today's weather">
+            <div class="weather-cell">
+                <span>Weather</span>
+                <strong id="weather-condition">Today</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Temp</span>
+                <strong id="weather-temp">-- F</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Rain</span>
+                <strong id="weather-rain">--%</strong>
+            </div>
+            <div class="weather-cell">
+                <span>City</span>
+                <strong id="weather-location">Loading</strong>
+            </div>
+        </div>
         <!-- 右边：搜索栏 -->
         <div class="search-container">
             <input 
@@ -96,9 +113,25 @@
             
             <!-- 景点 -->
             <div class="place-exclusive">
-                <h3>Place Filters</h3>
-                <button>Free Entry</button>
-                <button>Indoor / Outdoor</button>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="nature">
+                    <label for="nature">Nature & Parks </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="historic">
+                    <label for="historic">Historic Landmarks </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="museums">
+                    <label for="museums">Museums Galleries </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="hidden-gems">
+                    <label for="hidden-gems">Hidden Gems </label>
+                </div>
             </div>
 
         </aside>
