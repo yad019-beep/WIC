@@ -1,32 +1,52 @@
-.results-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+/* ========== 颜色变量 ========== */
+:root {
+    --purple-dark: #663399;
+    --purple-light: #DFD3E3;
+    --purple-soft: #f3eef5;
+    --purple-hover: #7e4aa5;
 }
 
+/* ========== 布局修正 ========== */
+/* 确保主内容区域占据侧边栏剩下的所有空间 */
+#main-section {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 卡片容器：实现响应式横向网格 */
+.results-container {
+    display: grid;
+    /* 自动填充：每列最小280px，剩下的平分 */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* ========== 卡片样式 ========== */
 .location-card {
     background: white;
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     transition: all 0.25s ease;
-    border: 1px solid #DFD3E3;
+    border: 1px solid var(--purple-light);
+    display: flex;
+    flex-direction: column;
 }
 
 .location-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(102, 51, 153, 0.15);
-    border-color: #663399;
+    border-color: var(--purple-dark);
 }
 
 .card-img {
     height: 150px;
-    background: linear-gradient(135deg, #DFD3E3, #e8d9f0);
+    background: linear-gradient(135deg, var(--purple-light), #e8d9f0);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #663399;
+    color: var(--purple-dark);
     font-size: 0.8rem;
 }
 
@@ -36,14 +56,17 @@
 }
 
 .card-info {
-    padding: 1rem;
+    padding: 1.2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .card-header h3 {
@@ -53,34 +76,35 @@
 }
 
 .price {
-    background: #DFD3E3;
+    background: var(--purple-light);
     padding: 0.2rem 0.6rem;
     border-radius: 1rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #663399;
+    color: var(--purple-dark);
 }
 
 .description {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #4a3a5a;
-    margin: 0.5rem 0;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
 }
 
 .address, .hours {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: #6c5a7c;
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    margin-top: 0.2rem;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .badge-row {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 8px 0;
+    margin: 12px 0;
 }
 
 .status-badge {
@@ -93,15 +117,8 @@
     gap: 4px;
 }
 
-.status-open {
-    background: #e0f2e9;
-    color: #2b6e4e;
-}
-
-.status-closed {
-    background: #fce4e4;
-    color: #b33c3c;
-}
+.status-open { background: #e0f2e9; color: #2b6e4e; }
+.status-closed { background: #fce4e4; color: #b33c3c; }
 
 .discount-badge {
     background: #fef0d9;
@@ -113,22 +130,23 @@
 }
 
 .official-link {
-    margin-top: 0.75rem;
+    margin-top: auto; /* 推到底部 */
     text-align: right;
+    padding-top: 10px;
 }
 
 .official-link a {
-    background: #DFD3E3;
-    padding: 0.2rem 0.8rem;
+    background: var(--purple-light);
+    padding: 0.3rem 0.8rem;
     border-radius: 2rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-decoration: none;
-    color: #663399;
-    transition: 0.1s;
+    color: var(--purple-dark);
+    transition: 0.2s;
 }
 
 .official-link a:hover {
-    background: #663399;
+    background: var(--purple-dark);
     color: white;
 }
