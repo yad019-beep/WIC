@@ -1,18 +1,56 @@
-const allPlaces = [
-    { id: 1, name: "RakiRaki Ramen", category: "food", price: 12, openNow: true, hasDiscount: true, discountDesc: "10% off UCSD ID", desc: "Authentic Hakata-style tonkotsu ramen.", address: "4646 Convoy St", hours: "11:00-22:00", url: "https://www.rakirakiramen.com/" },
-    { id: 2, name: "Shake Shack UTC", category: "food", price: 15, openNow: true, hasDiscount: false, discountDesc: "", desc: "Modern day 'roadside' burger stand.", address: "4545 La Jolla Village Dr", hours: "10:00-21:00", url: "https://shakeshack.com/location/utc-san-diego-ca" },
-    { id: 3, name: "Tapioca Express", category: "food", price: 8, openNow: true, hasDiscount: true, discountDesc: "$1 off", desc: "Classic Boba tea and Taiwanese snacks.", address: "9737 Judicial Way", hours: "11:00-23:00", url: "https://tapiocaexpress.com/" },
-    { id: 4, name: "Coco Ichibanya", category: "food", price: 14, openNow: false, hasDiscount: false, discountDesc: "", desc: "Famous Japanese curry house.", address: "8120 Mira Mesa Blvd", hours: "11:00-21:00", url: "https://ichibanyausa.com/" },
-    { id: 5, name: "The Taco Stand", category: "food", price: 9, openNow: true, hasDiscount: false, discountDesc: "", desc: "Authentic Tijuana-style taco experience.", address: "621 Pearl St", hours: "09:00-22:00", url: "https://letstaco.com/" },
-    { id: 6, name: "La Jolla Shores", category: "place", price: 0, openNow: true, hasDiscount: false, discountDesc: "", desc: "A mile-long beach for swimming and surfing.", address: "La Jolla Shores Dr", hours: "24/7", url: "https://www.sandiego.gov/lifeguards/beaches/shores" },
-    { id: 7, name: "Museum of Contemporary Art", category: "place", price: 15, openNow: false, hasDiscount: true, discountDesc: "Free for UCSD", desc: "Showcasing art of our time since 1941.", address: "700 Prospect St", hours: "10:00-17:00", url: "https://mcasd.org" },
-    { id: 8, name: "Torrey Pines Gliderport", category: "place", price: 5, openNow: true, hasDiscount: true, discountDesc: "$20 off", desc: "Historic aviation site with cliffside views.", address: "2800 Torrey Pines Scenic Dr", hours: "09:00-18:00", url: "https://www.flytorrey.com/" },
-    { id: 9, name: "Birch Aquarium", category: "place", price: 20, openNow: true, hasDiscount: true, discountDesc: "$5 off", desc: "Explore the cutting edge of Scripps research.", address: "2300 Expedition Way", hours: "09:00-17:00", url: "https://aquarium.ucsd.edu" }
-];
+let allPlaces = [];
 
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyuagjKqQihQ_mLwQ7k8aaCULBhw54XRdBFlf4wjQsesiWdONNWZvE-TU2hRIxuEPcW4lSvny6LID/pub?output=csv";
 let currentTab = "food";
 let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false };
+// 动态数据库
+function loadDataFromSheet(){
+    Papa.parse(sheetURL, {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(result){
+            allPlaces = result.data.filter(p => p.name);
+            //动态计算（提取本地时间来算是否开门）
+            const now = new Date();
+            const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
+            
+            allPlaces.forEach(p => {
+                p.openNow = false;
+                if (p.hours){
+                    let hoursStr = p.hours.toString().trim().toLowerCase();
+                    
+                    if(hoursStr == '24 hours'){
+                        p.openNow = true;
+                    }
+                    else if(hoursStr.includes('-')){
+                        let times = hoursStr.split('-');
+                        let openParts = times[0].split(':');
+                        let closeParts = times[1].split(':');
 
+                        if(openParts.length === 2 && closeParts.length === 2){
+                            let openMins = parseInt(openParts[0]) * 60 + parseInt(openParts[1]);
+                            let closeMins = parseInt(closeParts[0]) * 60 + parseInt(closeParts[1]);
+
+                            if(closeMins < openMins) {
+                                p.openNow = (currentTotalMinutes >= openMins) || (currentTotalMinutes <= closeMins);
+                            } else{
+                                p.openNow = (currentTotalMinutes >= openMins) && (currentTotalMinutes < closeMins);
+                            }
+                        }
+                    }
+                }
+            });
+            console.log("成功读取:", allPlaces.length);
+            renderCards();
+        },
+        error: function(error){
+            console.error("失败:", error);
+            document.getElementById("results-container").innerHTML =
+            `<div style="text-align:center; color:red; padding:2rem;">Failed to load data. 请检查网络或 CSV 链接。</div>`;
+        }
+    });
+}
 // ========== 渲染函数 ==========
 function renderCards() {
     const container = document.getElementById("results-container");
@@ -40,7 +78,10 @@ function renderCards() {
     // 生成 HTML
     container.innerHTML = filtered.map(p => `
         <article class="location-card">
-            <div class="card-img"></div>
+            ${p.image ?
+                `<img src="${p.image}" class="card-img" alt="${p.name}>`:
+                `<div class="card-img"></div>`
+            }
             <div class="card-info">
                 <div class="card-header">
                     <h3>${p.name}</h3>
@@ -105,7 +146,7 @@ window.setHomepageTab = function(tab) {
 
 // ========== 初始化与事件绑定 ==========
 document.addEventListener('DOMContentLoaded', () => {
-    renderCards();
+    loadDataFromSheet();
 
     // 绑定 Tab
     document.getElementById("tab-food")?.addEventListener("click", () => setHomepageTab("food"));

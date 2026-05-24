@@ -11,13 +11,16 @@
 #main-section {
     flex: 1;
     min-width: 0;
+
+    padding: 0 35px 35px 35px;
+    box-sizing: border-box;
 }
 
 /* 卡片容器：实现响应式横向网格 */
 .results-container {
     display: grid;
     /* 自动填充：每列最小280px，剩下的平分 */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
@@ -48,6 +51,9 @@
     justify-content: center;
     color: var(--purple-dark);
     font-size: 0.8rem;
+
+    width:100%;
+    object-fit: cover;
 }
 
 .card-img::after {
