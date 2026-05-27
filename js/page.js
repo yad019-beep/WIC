@@ -2,7 +2,57 @@ let allPlaces = [];
 
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyuagjKqQihQ_mLwQ7k8aaCULBhw54XRdBFlf4wjQsesiWdONNWZvE-TU2hRIxuEPcW4lSvny6LID/pub?output=csv";
 let currentTab = "food";
-let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false };
+let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false, tags: [] };
+
+const tagGroups = {
+    food: ["full-meal", "dessert", "vegan", "good-for-study"],
+    place: ["nature", "historic", "museums", "hidden-gems"]
+};
+
+function normalizeTag(tag) {
+    return tag
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+function getPlaceTags(place) {
+    if (Array.isArray(place.parsedTags)) return place.parsedTags;
+
+    const rawTags = place.tags || place.tag || place.labels || "";
+    place.parsedTags = rawTags
+        .toString()
+        .split(/[,;|]/)
+        .map(normalizeTag)
+        .filter(Boolean);
+
+    return place.parsedTags;
+}
+
+function getActiveTags() {
+    const allowedTags = tagGroups[currentTab] || [];
+    return filters.tags.filter(tag => allowedTags.includes(tag));
+}
+
+function applyFilters(places) {
+    let filtered = places.filter(p => p.category === currentTab);
+    filtered = filtered.filter(p => p.price >= filters.minPrice && p.price <= (filters.maxPrice === 50 ? 999 : filters.maxPrice));
+    if (filters.openNow) filtered = filtered.filter(p => p.openNow);
+    if (filters.discountOnly) filtered = filtered.filter(p => p.hasDiscount);
+
+    const activeTags = getActiveTags();
+    if (activeTags.length > 0) {
+        filtered = filtered.filter(p => {
+            const placeTags = getPlaceTags(p);
+            return activeTags.some(tag => placeTags.includes(tag));
+        });
+    }
+
+    return filtered;
+}
 // 动态数据库
 function loadDataFromSheet(){
     Papa.parse(sheetURL, {
@@ -11,6 +61,11 @@ function loadDataFromSheet(){
         dynamicTyping: true,
         complete: function(result){
             allPlaces = result.data.filter(p => p.name);
+            allPlaces.forEach(p => {
+                p.category = p.category ? p.category.toString().trim().toLowerCase() : "";
+                p.price = Number(p.price) || 0;
+                getPlaceTags(p);
+            });
             //动态计算（提取本地时间来算是否开门）
             const now = new Date();
             const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
@@ -59,10 +114,7 @@ function renderCards() {
     if (!container) return;
 
     // 过滤逻辑
-    let filtered = allPlaces.filter(p => p.category === currentTab);
-    filtered = filtered.filter(p => p.price >= filters.minPrice && p.price <= (filters.maxPrice === 50 ? 999 : filters.maxPrice));
-    if (filters.openNow) filtered = filtered.filter(p => p.openNow);
-    if (filters.discountOnly) filtered = filtered.filter(p => p.hasDiscount);
+    let filtered = applyFilters(allPlaces);
     
     // 更新标题
     if (pageTitle) {
@@ -106,9 +158,7 @@ function renderCards() {
 
 // ========== 随机挑选逻辑 ==========
 function randomPick() {
-    let filtered = allPlaces.filter(p => p.category === currentTab);
-    if (filters.openNow) filtered = filtered.filter(p => p.openNow);
-    if (filters.discountOnly) filtered = filtered.filter(p => p.hasDiscount);
+    let filtered = applyFilters(allPlaces);
     
     if (filtered.length === 0) {
         alert("No spots match current category/filters!");
@@ -138,6 +188,8 @@ window.updateCardFilters = function(newFilters) {
 
 window.setHomepageTab = function(tab) {
     currentTab = tab;
+    document.body.classList.toggle("food-page", tab === "food");
+    document.body.classList.toggle("place-page", tab === "place");
     // 切换按钮激活状态
     document.getElementById("tab-food")?.classList.toggle("active", tab === "food");
     document.getElementById("tab-place")?.classList.toggle("active", tab === "place");
@@ -162,6 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 价格滑动条逻辑
+    Object.values(tagGroups).flat().forEach(tagId => {
+        document.getElementById(tagId)?.addEventListener("change", e => {
+            const selectedTags = new Set(filters.tags);
+            if (e.target.checked) {
+                selectedTags.add(tagId);
+            } else {
+                selectedTags.delete(tagId);
+            }
+            window.updateCardFilters({ tags: Array.from(selectedTags) });
+        });
+    });
+
     const sMin = document.getElementById("slider-min");
     const sMax = document.getElementById("slider-max");
     const vMin = document.getElementById("min-value");
