@@ -3,11 +3,22 @@ let allPlaces = [];
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyuagjKqQihQ_mLwQ7k8aaCULBhw54XRdBFlf4wjQsesiWdONNWZvE-TU2hRIxuEPcW4lSvny6LID/pub?output=csv";
 let currentTab = "food";
 let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false, tags: [] };
+let pickingNow = false;
 
 const tagGroups = {
     food: ["full-meal", "dessert", "vegan", "good-for-study"],
     place: ["nature", "historic", "museums", "hidden-gems"]
 };
+
+function safeText(value) {
+    return value
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 function normalizeTag(tag) {
     return tag
@@ -53,6 +64,60 @@ function applyFilters(places) {
 
     return filtered;
 }
+
+function jumpToPickedCard(placeName) {
+    document.querySelectorAll('.location-card').forEach(card => {
+        if (card.querySelector('h3')?.innerText !== placeName) return;
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.boxShadow = '0 0 0 4px #663399';
+        setTimeout(() => card.style.boxShadow = '', 1500);
+    });
+}
+
+function openPickRoll(places, picked) {
+    const winnerSlot = 25;
+    const line = Array.from({ length: 36 }, () => places[Math.floor(Math.random() * places.length)]);
+    line[winnerSlot] = picked;
+
+    const popup = document.createElement("div");
+    popup.className = "pick-popup";
+    popup.innerHTML = `
+        <div class="pick-box">
+            <button class="pick-close" type="button">×</button>
+            <h3>Pick For Me</h3>
+            <div class="pick-window">
+                <div class="pick-marker"></div>
+                <div class="pick-line">
+                    ${line.map(place => `
+                        <div class="pick-tile">
+                            <strong>${safeText(place.name || "Unknown")}</strong>
+                            <span>${place.price === 0 ? "Free" : "$" + safeText(place.price || "")}</span>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+            <div class="pick-result">Selected: <strong>${safeText(picked.name)}</strong></div>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+    popup.querySelector(".pick-close").onclick = () => popup.remove();
+
+    requestAnimationFrame(() => {
+        const row = popup.querySelector(".pick-line");
+        const winningTile = row.children[winnerSlot];
+        const middle = popup.querySelector(".pick-window").clientWidth / 2;
+        const moveBy = winningTile.offsetLeft + winningTile.offsetWidth / 2 - middle;
+        row.style.transform = `translateX(-${moveBy}px)`;
+    });
+
+    setTimeout(() => {
+        popup.classList.add("done");
+        pickingNow = false;
+        jumpToPickedCard(picked.name);
+    }, 4300);
+}
+
 // 动态数据库
 function loadDataFromSheet(){
     Papa.parse(sheetURL, {
@@ -106,7 +171,7 @@ function loadDataFromSheet(){
         }
     });
 }
-// ========== 渲染函数 ==========
+//  渲染函数 
 function renderCards() {
     const container = document.getElementById("results-container");
     const pageTitle = document.getElementById("page-title");
@@ -140,7 +205,14 @@ function renderCards() {
                     <span class="price">${p.price === 0 ? "Free" : "$" + p.price}</span>
                 </div>
                 <div class="description">${p.desc}</div>
-                <div class="address">📍 ${p.address}</div>
+                <div class="address">
+                    📍 <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.address)}" 
+                          target="_blank" 
+                          rel="noopener" 
+                          style="color: var(--purple-dark); text-decoration: underline; font-weight: bold;">
+                        ${p.address} 
+                    </a>
+                </div>
                 <div class="hours">🕒 ${p.hours}</div>
                 <div class="badge-row">
                     <span class="status-badge ${p.openNow ? 'status-open' : 'status-closed'}">
@@ -156,8 +228,10 @@ function renderCards() {
     `).join('');
 }
 
-// ========== 随机挑选逻辑 ==========
+// 随机挑选逻辑 
 function randomPick() {
+    if (pickingNow) return;
+
     let filtered = applyFilters(allPlaces);
     
     if (filtered.length === 0) {
@@ -165,22 +239,12 @@ function randomPick() {
         return;
     }
     
-    const lucky = filtered[Math.floor(Math.random() * filtered.length)];
-    alert(`🎉 Random pick: ${lucky.name}!`);
-    
-    // 自动滚动到那个卡片
-    const cards = document.querySelectorAll('.location-card');
-    for (let card of cards) {
-        if (card.querySelector('h3')?.innerText === lucky.name) {
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            card.style.boxShadow = '0 0 0 4px #663399';
-            setTimeout(() => card.style.boxShadow = '', 1500);
-            break;
-        }
-    }
+    const picked = filtered[Math.floor(Math.random() * filtered.length)];
+    pickingNow = true;
+    openPickRoll(filtered, picked);
 }
 
-// ========== 暴露给组员的接口 ==========
+//  暴露给组员的接口 
 window.updateCardFilters = function(newFilters) {
     Object.assign(filters, newFilters);
     renderCards();
@@ -196,7 +260,7 @@ window.setHomepageTab = function(tab) {
     renderCards();
 };
 
-// ========== 初始化与事件绑定 ==========
+//  初始化与事件绑定 
 document.addEventListener('DOMContentLoaded', () => {
     loadDataFromSheet();
 
@@ -204,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("tab-food")?.addEventListener("click", () => setHomepageTab("food"));
     document.getElementById("tab-place")?.addEventListener("click", () => setHomepageTab("place"));
 
-    // 绑定侧边栏过滤器 (根据你的 index.html ID)
+    // 绑定侧边栏过滤器
     document.getElementById("Open-right-now")?.addEventListener("change", e => {
         window.updateCardFilters({ openNow: e.target.checked });
     });

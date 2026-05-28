@@ -146,3 +146,44 @@ body.place-page .place-exclusive {
     top: 50%;
     transform: translateY(-50%);
 }
+.sidebar-submit-box {
+    margin-top: auto; 
+    padding: 20px 15px;
+    background: linear-gradient(135deg, #f8f1fa, #e8d9f0);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px dashed var(--purple-main); 
+}
+
+.sidebar-submit-box h4 {
+    margin: 0 0 5px 0;
+    color: var(--purple-dark);
+    font-size: 1rem;
+}
+
+.sidebar-submit-box p {
+    margin: 0 0 15px 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.submit-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: var(--purple-main);
+    color: #461B7E;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(102, 51, 153, 0.2);
+}
+
+.submit-btn:hover {
+    background-color: var(--purple-dark);
+    transform: translateY(-2px);
+    color:white;
+    box-shadow: 0 6px 15px rgba(102, 51, 153, 0.4);
+}
