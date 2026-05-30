@@ -183,7 +183,7 @@ function renderCards() {
     
     // 更新标题
     if (pageTitle) {
-        pageTitle.innerText = currentTab === "food" ? "🍔 Food Spots around UCSD" : "🌴 Places & Attractions";
+        pageTitle.innerText = currentTab === "food" ? "Where to eat" : "Where to go";
     }
     
     // 空状态处理
