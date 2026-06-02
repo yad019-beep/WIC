@@ -13,6 +13,7 @@
     min-width: 0;
 
     padding: 0 35px 35px 35px;
+    background-color: var(--purple-soft);
     box-sizing: border-box;
 }
 

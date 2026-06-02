@@ -2,7 +2,7 @@ let allPlaces = [];
 
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuyuagjKqQihQ_mLwQ7k8aaCULBhw54XRdBFlf4wjQsesiWdONNWZvE-TU2hRIxuEPcW4lSvny6LID/pub?output=csv";
 let currentTab = "food";
-let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false, tags: [] };
+let filters = { openNow: false, minPrice: 0, maxPrice: 50, discountOnly: false, tags: [], searchText: ""};
 let pickingNow = false;
 
 const tagGroups = {
@@ -59,6 +59,30 @@ function applyFilters(places) {
         filtered = filtered.filter(p => {
             const placeTags = getPlaceTags(p);
             return activeTags.some(tag => placeTags.includes(tag));
+        });
+    }
+
+    // Search Bar Filter
+    if (filters.searchText.trim() !== "") {
+
+        const keyword = filters.searchText.toLowerCase();
+
+        filtered = filtered.filter(place => {
+
+            const name =
+                (place.name || "").toLowerCase();
+
+            const desc =
+                (place.desc || "").toLowerCase();
+
+            const tags =
+                (place.tags || "").toLowerCase();
+
+            return (
+                name.includes(keyword) ||
+                desc.includes(keyword) ||
+                tags.includes(keyword)
+            );
         });
     }
 
@@ -267,6 +291,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // 绑定 Tab
     document.getElementById("tab-food")?.addEventListener("click", () => setHomepageTab("food"));
     document.getElementById("tab-place")?.addEventListener("click", () => setHomepageTab("place"));
+
+    // Search Bar
+    const searchBar = document.getElementById("search-bar");
+
+    const clearBtn = document.getElementById("clear-search");
+
+    searchBar?.addEventListener("input", (e) => {
+
+        const text = e.target.value.trim();
+
+        window.updateCardFilters({
+            searchText: text
+        });
+
+        // 控制 X 是否显示
+        if (text !== "") {
+            clearBtn.style.display = "block";
+        } else {
+            clearBtn.style.display = "none";
+        }
+    });
+
+    clearBtn?.addEventListener("click", () => {
+
+        // 清空输入框
+        searchBar.value = "";
+
+        // 重置过滤器
+        window.updateCardFilters({
+            searchText: ""
+        });
+
+        // 隐藏 X
+        clearBtn.style.display = "none";
+
+    });
 
     // 绑定侧边栏过滤器
     document.getElementById("Open-right-now")?.addEventListener("change", e => {

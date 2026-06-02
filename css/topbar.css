@@ -12,7 +12,7 @@
     align-items: center;
 
     /* 导航栏高度 */
-    height: 80px;
+    height: 110px;
 
     /* 左右留白 */
     padding: 0 40px;
@@ -35,7 +35,7 @@
     position: relative;
     display: inline-block;
     color: rgba(255, 255, 255, 0.62);
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 900;
     letter-spacing: 0;
     line-height: 1;
@@ -74,57 +74,98 @@
 /* nav按钮 */
 .tabs button {
 
-    /* 内边距 */
-    padding: 10px 24px;
+    width: 120px;
 
-    /* 圆角 */
-    border-radius: 30px;
+    height: 50px;
 
-    /* 去掉默认边框 */
-    border: none;
+    border-radius: 12px;
 
-    /* 背景颜色 */
-    background-color: #DFD3E3;
+    border: 2px solid #DFD3E3;
+
+    background: #DFD3E3;
+
     color: #461B7E;
 
-    /* 鼠标样式 */
+    font-size: 18px;
+
+    font-weight: 600;
+
     cursor: pointer;
 
-    /* 字体大小 */
-    font-size: 16px;
-
-    /* 动画更平滑 */
-    transition: 0.3s;
+    transition: all 0.2s ease;
 }
 
 /* 鼠标hover效果 */
 .tabs button:hover {
 
-    /* 背景变深 */
-    background-color: #cbb8d3;
+    transform: translateY(-2px);
 
-    /* 稍微放大 */
-    transform: scale(1.05);
+}
+
+.search-container {
+    position: relative;
 }
 
 /* searchbar */
 .search-container input {
 
-    /* 搜索框宽度 */
-    width: 220px;
+    width: 260px;
 
-    /* 内边距 */
-    padding: 10px;
+    height: 50px;
 
-    /* 圆角 */
-    border-radius: 20px;
+    border-radius: 12px;
 
-    /* 边框 */
-    border: 2px solid #DFD3E3;
+    background-color: #DFD3E3;
+
     color: #461B7E;
 
-    /* 字体大小 */
-    font-size: 14px;
+    border: 2px solid #DFD3E3;
+
+    padding-left: 15px;
+
+    font-size: 18px;
+
+    font-weight: 500;
+}
+
+.search-container input::placeholder {
+
+    color: #7A5A9A;
+
+}
+
+/* 搜索清除按钮 */
+
+.clear-search-btn {
+
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    
+    font-weight: bold;
+
+    color: #461B7E;
+
+    display: none;
+}
+
+/* Hover效果 */
+
+.clear-search-btn:hover {
+
+    opacity: 0.7;
+
 }
 
 .tabs button.active {
