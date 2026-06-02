@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food & Place Discovery</title>
+    <title>Triton2Where </title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/topbar.css">
     <link rel="stylesheet" href="css/sidebar.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/page.css">
 </head>
 
 <body class="food-page">
@@ -15,14 +15,31 @@
     <header id="header-section">
         <!-- 左边：logo -->
         <div class="logo">
-            MyDiscovery
+            Triton2Where
         </div>
         <!-- 中间：导航按钮 -->
         <nav class="tabs">
             <button id="tab-food">Food</button>
             <button id="tab-place">Place</button>
-            <button id="tab-weather">Weather</button>
         </nav>
+        <div class="weather-box" aria-label="Today's weather">
+            <div class="weather-cell">
+                <span>Weather</span>
+                <strong id="weather-condition">Today</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Temp</span>
+                <strong id="weather-temp">-- F</strong>
+            </div>
+            <div class="weather-cell">
+                <span>Rain</span>
+                <strong id="weather-rain">--%</strong>
+            </div>
+            <div class="weather-cell">
+                <span>City</span>
+                <strong id="weather-location">Loading</strong>
+            </div>
+        </div>
         <!-- 右边：搜索栏 -->
         <div class="search-container">
             <input 
@@ -39,7 +56,7 @@
             <!-- 共用筛选 -->
              
             <div class="shared-filters">
-                <!-- 以开门 -->
+                <!-- 正在开门 -->
                 <div class="filter-group custom-fill-filter">
                     <input type="checkbox" id="Open-right-now">
                     <label for="Open-right-now">Open Now</label>
@@ -75,39 +92,67 @@
             <hr>
             <!-- 食物 -->
             <div class="food-exclusive">
-                <h3>Food Filters</h3>
-                <button>Vegetarian</button>
-                <button>Spicy Level</button>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="full-meal">
+                    <label for="full-meal">Full Meal🍱 </label>
+                </div>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="dessert">
+                    <label for="dessert">Dessert 🍰</label>
+                </div>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="vegan">
+                    <label for="vegan"> Vegan 🥗</label>
+                </div>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="good-for-study">
+                    <label for="good-for-study">Study! 💻</label>
+                </div>
+                
             </div>
             
             <!-- 景点 -->
             <div class="place-exclusive">
-                <h3>Place Filters</h3>
-                <button>Free Entry</button>
-                <button>Indoor / Outdoor</button>
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="nature">
+                    <label for="nature">Nature & Parks </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="historic">
+                    <label for="historic">Historic Landmarks </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="museums">
+                    <label for="museums">Museums Galleries </label>
+                </div>
+
+                <div class="filter-group custom-fill-filter">
+                    <input type="checkbox" id="hidden-gems">
+                    <label for="hidden-gems">Hidden Gems </label>
+                </div>
             </div>
 
+            <div class="sidebar-submit-box">
+            <h4>Missing a great spot? 🤔</h4>
+            <p>Help us add more to the list!</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkdCffzWk2EzvhC_tR6Prh5vYtPnqkhpt4RUALnvlf7y6Ndw/viewform?usp=header" 
+                target="_blank" rel="noopener" class="submit-btn">
+                ➕ Add a New Spot
+            </a>
+            </div>
         </aside>
 
         <!-- 主页/中间部分 -->
         <main id="main-section">
             <h2 id="page-title">Currently Browsing: Food</h2>
-            <!-- 如果没理解错这个地方是全部删了 然后你自己重新设计卡片 -->
-            <div class="results-container">
-                <article class="location-card">
-                    <div class="card-img">Image Placeholder</div>
-                    <div class="card-info">
-                        <h3>Sample Location Name</h3>
-                        <p>Rating: ⭐⭐⭐⭐</p>
-                        <span class="price-tag">$$</span>
-                    </div>
-                </article>
-            </div>
+            <div class="results-container" id="results-container"></div>
         </main>
-        </div>
-
+    </div>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="js/topbar.js"></script>
     <script src="js/sidebar.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/page.js"></script>
 </body>
 </html>
